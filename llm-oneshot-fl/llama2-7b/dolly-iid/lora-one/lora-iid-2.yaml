@@ -1,0 +1,56 @@
+use_gpu: True
+device: 1
+outdir: Result/Qwen_dolly_fft
+early_stop:
+  patience: 0
+federate:
+  mode: standalone
+  # mode: distributed
+  client_num: 2
+  total_round_num: 1
+  save_to: "checkpoints/qwen.dolly.fft-one.ckpt"
+  save_freq: 50
+  make_global_eval: True
+  share_local_model: True
+  online_aggr: False
+data:
+  root: data/
+  type: 'dolly-15k@llm'
+  splits: [0.99, 0.0, 0.01]
+  splitter: 'lda'
+  splitter_args: [{'alpha': 0.05}]
+  
+llm:
+  tok_len: 650
+  chat:
+    max_len: 1000
+  offsite_tuning:
+    use: False
+  adapter:
+    use: True
+    args: [ { 'adapter_package': 'peft', 'adapter_method': 'lora', 'r': 8, 'lora_alpha': 32, 'lora_dropout': 0.1, 'target_modules':'.*self_attn.q_proj$' } ]
+dataloader:
+  batch_size: 1
+model:
+  type: 'Qwen/Qwen2.5-7B-Instruct@huggingface_llm'
+train:
+  local_update_steps: 2000
+  batch_or_epoch: batch
+  optimizer:
+    lr: 0.05
+  is_enable_half: True
+criterion:
+  type: CrossEntropyLoss
+trainer:
+  type: llmtrainer
+eval:
+  freq: 100
+  metrics: ['acc','loss']
+  best_res_update_round_wise_key: 'test_loss'
+  # metrics: ['acc']
+  report: ["acc",'weighted_avg', 'avg', 'raw']
+expname: "Qwen/lora-one/iid/lora_one_6000_2000_2"
+# wandb:
+#   use: True
+#   name_user: 'harliwu'
+#   name_project: 'llama-7b_dolly-meta_lora'
