@@ -1,12 +1,4 @@
 # FEDFFT
-## Code Structure
-
-
-## Quick Start
-Let’s start with fine-tuning GPT-2 on [Alpaca](https://github.com/tatsu-lab/stanford_alpaca) to familiarize you with FS-LLM.
-
-### Step 1. Installation
-
 
 # Create virtual environments with conda
 conda create -n fs-llm python=3.9
