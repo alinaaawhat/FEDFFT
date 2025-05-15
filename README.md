@@ -1,4 +1,4 @@
-# FEDFFT
+# FedFSeq
 
 # Create virtual environments with conda
 conda create -n fs-llm python=3.9
