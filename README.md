@@ -18,5 +18,5 @@ python federatedscope/main.py --cfg federatedscope\llm-oneshot-fl\llama2-7b\doll
 
 ##### Evaluation of fine-tuned LLMs
 ```bash
-evaluate  evaluate/eval_llama_fft.py
+evaluate  evaluate/code.py
 ```
